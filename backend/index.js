@@ -1,30 +1,29 @@
 const express = require('express')
 const app = express()
 const port = process.env.PORT || 5000;
-const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database(':memory:');
 const path = require('path');
+const database = require("./database/crudrepository");
+const router = require("./routes/router");
 
 app.use(express.static(path.join(__dirname, "public")));
+app.use(express.json());
+app.use('/api', router);
 
 
-db.serialize(() => {
-    db.run("CREATE TABLE IF NOT EXISTS locations (id INTEGER PRIMARY KEY, latitude DECIMAL, longitude DECIMAL)");
 
-    db.run('INSERT INTO locations (latitude, longitude) VALUES (?, ?)', ['10', '20']);
-    db.run('INSERT INTO locations (latitude, longitude) VALUES (?, ?)', ['22', '30']);
-    db.run('INSERT INTO locations (latitude, longitude) VALUES (?, ?)', ['1', '66']);
-});
+const main = async () => {
+    try {
+        await database.initialize();
+        await database.insertFinnishAndEnglish("kissa", "cat");
+        await database.insertFinnishAndEnglish("mato", "worm");
 
-app.get('/api/locations', (req, res) => {
-    db.all('SELECT * FROM locations', [], (err, rows) => {
-        if (err) {
-            return res.status(500).send('Database error');
-        }
-        res.json(rows);
-    });
-})
+    } catch (err) {
+        console.error(err)
+    }
+}
+
+main();
 
 app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
+    console.log(`Learn English App listening on port ${port}`)
 })
