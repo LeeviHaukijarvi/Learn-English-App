@@ -13,7 +13,6 @@ function App() {
 
 
   useEffect(() => {
-    console.log('API URL:', import.meta.env.VITE_API_URL);
     fetchWords();
   }, []);
 
@@ -34,7 +33,7 @@ function App() {
 
   async function fetchWords() {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/`);
+      const response = await fetch(`/api/`);
       const words = await response.json();
       setWords(words);
     } catch (error) {
