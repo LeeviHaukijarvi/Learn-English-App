@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 import { useRef } from "react";
-import e from 'cors';
 
 function App() {
   const [words, setWords] = useState([]);
@@ -34,7 +33,7 @@ function App() {
 
   async function fetchWords() {
     try {
-      const response = await fetch("http://localhost:5000/api/");
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/`);
       const words = await response.json();
       setWords(words);
     } catch (error) {
@@ -43,8 +42,6 @@ function App() {
   }
 
   function listWords(words, language) {
-
-
     return words.map((word, index) => {
       let toBeTranslated = '';
       let translated = '';
