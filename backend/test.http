@@ -1,1 +1,16 @@
-get http://localhost:3000/api/locations
+get http://localhost:5000/api/
+
+###
+
+POST http://localhost:5000/api/
+Content-Type: application/json
+
+{
+  "finnishWord": "Koira",
+  "englishWord": "Dog"
+}
+
+###
+
+
+DELETE http://localhost:5000/api/2
