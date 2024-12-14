@@ -8,13 +8,13 @@ const cors = require('cors');
 
 app.use(cors());
 
-app.use(express.static(path.join(__dirname, "../frontend/dist")));
+app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.use('/api', router);
 
 
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
+    res.sendFile(path.join(__dirname, "public/index.html"));
 });
 
 const main = async () => {
