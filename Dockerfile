@@ -40,7 +40,7 @@ COPY backend/ backend/
 COPY --from=frontend-builder /app/frontend/dist backend/public
 
 # Expose the backend port
-EXPOSE 3000
+EXPOSE 5000
 
 # Start the backend server
 CMD ["npm", "start", "--workspace=backend"]
