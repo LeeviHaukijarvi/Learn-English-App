@@ -13,6 +13,9 @@ app.use(express.json());
 app.use('/api', router);
 
 
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
+});
 
 const main = async () => {
     try {
