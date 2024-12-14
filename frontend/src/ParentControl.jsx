@@ -20,7 +20,7 @@ function ParentControl() {
             }
         } catch (error) {
             console.error(error);
-            setStatusMessage("Failed to add words");
+            setStatusMessage(error.message);
         }
     }
 
