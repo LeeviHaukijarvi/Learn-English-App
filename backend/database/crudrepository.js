@@ -23,7 +23,6 @@ const connectionFunctions = {
     },
 
     insertFinnishAndEnglish: (finnishWord, englishWord) => {
-
         return new Promise((resolve, reject) => {
             if (!finnishWord || !englishWord) {
                 return reject("Both words are required");
@@ -40,6 +39,9 @@ const connectionFunctions = {
                     [finnishWord, englishWord],
                     (err) => {
                         if (err) {
+                            if (err.code === 'SQLITE_CONSTRAINT') {
+                                return reject("Word already exists");
+                            }
                             return reject(`Error adding words: ${err}`)
                         }
                         resolve("Words added succesfully")
