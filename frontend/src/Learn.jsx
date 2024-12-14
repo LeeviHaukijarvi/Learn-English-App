@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 import { useRef } from "react";
+import { fetchWords } from "./apiUtil";
 
 function Learn() {
   const [words, setWords] = useState([]);
@@ -12,11 +13,23 @@ function Learn() {
   const [disabledInputs, setDisabledInputs] = useState({});
 
 
+
   useEffect(() => {
-    fetchWords();
+    loadWords();
   }, []);
 
+  // Load words from the database
+  async function loadWords() {
+    try {
+      const fetchedWords = await fetchWords();
+      setWords(fetchedWords);
+    } catch (error) {
+      console.error("Error loading words:", error);
+    }
+  }
 
+
+  // Change the background color of the input based on the result
   const changeColor = (index, color) => {
     setInputColors((prevColors) => ({
       ...prevColors,
@@ -24,6 +37,7 @@ function Learn() {
     }));
   };
 
+  // Clear the input values, colors and enable the inputs
   const handleRefresh = () => {
     setInputValues({});
     setInputColors({});
@@ -31,21 +45,14 @@ function Learn() {
     setPoints(0);
   };
 
-  async function fetchWords() {
-    try {
-      const response = await fetch(`/api/`);
-      const words = await response.json();
-      setWords(words);
-    } catch (error) {
-      console.error(error);
-    }
-  }
 
   function listWords(words, language) {
     return words.map((word, index) => {
       let toBeTranslated = '';
       let translated = '';
       let placeholder = '';
+
+      // Set the correct word to be translated and the correct translation
       if (language === "finnish") {
         toBeTranslated = word.finnish_word;
         translated = word.english_word;
@@ -53,7 +60,7 @@ function Learn() {
       } else if (language === "english") {
         toBeTranslated = word.english_word;
         translated = word.finnish_word;
-        placeholder = "In Finnish";
+        placeholder = "Suomeksi";
       }
 
       return (
