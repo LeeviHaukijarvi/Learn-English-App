@@ -1,8 +1,23 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { fetchWords } from './apiUtil';
+
 
 function ParentControl() {
     const [statusMessage, setStatusMessage] = useState('');
+    const [words, setWords] = useState([]);
 
+    useEffect(() => {
+        loadWords();
+    }, []);
+
+    async function loadWords() {
+        try {
+            const fetchedWords = await fetchWords();
+            setWords(fetchedWords);
+        } catch (error) {
+            console.error("Error loading words:", error);
+        }
+    }
     async function addWords(finnish, english) {
         try {
             const response = await fetch(`/api/`, {
@@ -15,9 +30,9 @@ function ParentControl() {
             const data = await response.json();
             if (!response.ok) {
                 throw new Error(data.error);
-            } else {
-                setStatusMessage("Words added successfully");
             }
+            setStatusMessage("Words added successfully");
+            loadWords();
         } catch (error) {
             console.error(error);
             setStatusMessage(error.message);
@@ -25,12 +40,33 @@ function ParentControl() {
     }
 
     async function deleteWords(id) {
+        try {
+            const response = await fetch(`/api/${id}`, {
+                method: 'DELETE'
+            });
+            if (!response.ok) {
+                throw new Error("Failed to delete word");
+            }
+            loadWords();
+            setStatusMessage("Words deleted successfully");
+        } catch (error) {
+            console.error(error);
+            setStatusMessage(error.message);
+        }
+    }
 
-
+    function listWords(words) {
+        return words.map((word, index) => {
+            return (
+                <div key={index}>
+                    <p>{word.finnish_word} - {word.english_word}</p>
+                    <button onClick={() => deleteWords(word.id)}>Delete</button>
+                </div>
+            )
+        })
 
 
     }
-
 
     return (
         <div>
@@ -53,6 +89,8 @@ function ParentControl() {
             <button type="submit">Add</button>
             </form>
             <p>{statusMessage}</p>
+            <h2>All Words</h2>
+            {listWords(words)}
         </div>
     )
 
