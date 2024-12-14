@@ -6,8 +6,8 @@ POST http://localhost:5000/api/
 Content-Type: application/json
 
 {
-  "finnishWord": "dog",
-  "englishWord": "koira"
+  "finnishWord": "d2og",
+  "englishWord": "k2oira"
 }
 
 ###
