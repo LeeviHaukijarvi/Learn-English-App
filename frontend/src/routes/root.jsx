@@ -1,4 +1,5 @@
 import { Outlet } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Root() {
     return (
@@ -7,10 +8,10 @@ export default function Root() {
                 <nav>
                     <ul>
                         <li>
-                            <a href={`/parent-control`}>Parent Controls</a>
+                            <Link to={`/parent-control`}>Parent Control</Link>
                         </li>
                         <li>
-                            <a href={`/Learn`}>Learn</a>
+                            <Link to={`/learn`}>Learn</Link>
                         </li>
                     </ul>
                 </nav>
