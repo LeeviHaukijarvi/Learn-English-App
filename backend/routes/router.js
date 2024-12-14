@@ -22,7 +22,7 @@ router.post("/", async (req, res) => {
 
     } catch (err) {
         console.error(err)
-        res.status(400).json({ error: "Failed to add words", details: err.message });
+        res.status(400).json({ error: err });
     }
 })
 
