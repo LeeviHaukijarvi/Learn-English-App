@@ -7,7 +7,7 @@ export default function Root() {
                 <nav>
                     <ul>
                         <li>
-                            <a href={`/parent-control`}>Parent Constrols</a>
+                            <a href={`/parent-control`}>Parent Controls</a>
                         </li>
                         <li>
                             <a href={`/Learn`}>Learn</a>
