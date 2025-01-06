@@ -13,6 +13,19 @@ router.get("/", async (req, res) => {
 
 })
 
+router.post("/users", async (req, res) => {
+    const { username, password } = req.body;
+
+    try {
+        await database.insertPasswordAndUsername(username, password)
+        res.status(201).json({ message: "User added successfully" });
+
+    } catch (err) {
+        console.error(err)
+        res.status(400).json({ error: err });
+    }
+})
+
 router.post("/", async (req, res) => {
     const { finnishWord, englishWord } = req.body;
 
