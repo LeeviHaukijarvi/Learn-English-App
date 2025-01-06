@@ -11,15 +11,47 @@ const connectionFunctions = {
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     finnish_word VARCHAR(255) NOT NULL UNIQUE,
                     english_word VARCHAR(255) NOT NULL UNIQUE
-                )`,
-                    (err) => {
-                        if (err) {
-                            return reject(err);
-                        }
-                        resolve();
-                    });
+                )`, (err) => {
+                    if (err) {
+                        return reject(err);
+                    }
+                });
+                db.run(`CREATE TABLE IF NOT EXISTS Users (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    Username VARCHAR(255) NOT NULL UNIQUE,
+                    Password VARCHAR(255) NOT NULL
+                )`, (err) => {
+                    if (err) {
+                        return reject(err);
+                    }
+                    resolve();
+                });
             });
         });
+    },
+
+    insertPasswordAndUsername: (username, password) => {
+        return new Promise((resolve, reject) => {
+            if (!username || !password) {
+                return reject("Both fields are required");
+            }
+
+            db.serialize(() => {
+                db.run(
+                    "INSERT INTO Users (Username, Password) VALUES (?, ?)",
+                    [username, password],
+                    (err) => {
+                        if (err) {
+                            if (err.code === 'SQLITE_CONSTRAINT') {
+                                return reject("User already exists");
+                            }
+                            return reject(`Error adding user: ${err}`)
+                        }
+                        resolve("User added succesfully")
+                    }
+                )
+            });
+        })
     },
 
     insertFinnishAndEnglish: (finnishWord, englishWord) => {
