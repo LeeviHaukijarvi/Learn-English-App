@@ -32,8 +32,8 @@ router.post("/register", async (req, res) => {
     const { username, password } = req.body;
 
     try {
-        // const hashedPassword = await bcrypt.hash(password, 10);
-        await database.insertPasswordAndUsername(username, password)
+        const hashedPassword = await bcrypt.hash(password, 10);
+        await database.insertPasswordAndUsername(username, hashedPassword)
         res.status(201).json({ message: "User added successfully" });
 
     } catch (err) {
@@ -51,9 +51,9 @@ router.post("/login", async (req, res) => {
             return res.status(404).json({ error: "User not found" });
         }
 
-        // const isPasswordCorrect = await bcrypt.compare(password, user.password);
+        const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
-        if (password !== user.password) {
+        if (!isPasswordCorrect) {
             return res.status(401).json({ error: "Invalid password" });
         }
 
@@ -81,8 +81,8 @@ router.post("/", async (req, res) => {
     }
 })
 
-router.delete("/:myId", async (req, res) => {
-    const id = parseInt(req.params.myId);
+router.delete("/:id", async (req, res) => {
+    const id = parseInt(req.params.id);
 
     if (isNaN(id)) {
         return res.status(400).json({ error: "Invalid ID" });
@@ -99,8 +99,19 @@ router.delete("/:myId", async (req, res) => {
         console.error(err);
         return res.status(500).json({ error: "Failed to delete word", details: err.message });
     }
-
 })
+
+router.put("/:id", async (req, res) => {
+    const id = parseInt(req.params.id);
+    const { finnishWord, englishWord } = req.body;
+    try {
+        await database.updateWords(finnishWord, englishWord, id);
+        res.status(200).json({ message: "Word updated successfully" });
+    } catch (err) {
+        console.error(err);
+        res.status(400).json({ error: err.message });
+    }
+});
 
 
 module.exports = router;
