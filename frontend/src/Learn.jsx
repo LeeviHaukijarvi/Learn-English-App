@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import { useRef } from "react";
 import { fetchWords } from "./apiUtil";
+import Login from "./Login";
 
 function Learn() {
   const [words, setWords] = useState([]);
@@ -103,7 +104,6 @@ function Learn() {
 
             // Disable the button if the input is correct
             disabled={disabledInputs[index]}
-
           >
             Check
           </button>
@@ -126,7 +126,6 @@ function Learn() {
         }
         handleRefresh();
       }}>Flip</button>
-
     </>
   );
 }
