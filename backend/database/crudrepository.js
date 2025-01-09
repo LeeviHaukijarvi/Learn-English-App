@@ -18,8 +18,8 @@ const connectionFunctions = {
                 });
                 db.run(`CREATE TABLE IF NOT EXISTS Users (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    Username VARCHAR(255) NOT NULL UNIQUE,
-                    Password VARCHAR(255) NOT NULL
+                    username VARCHAR(255) NOT NULL UNIQUE,
+                    password VARCHAR(255) NOT NULL
                 )`, (err) => {
                     if (err) {
                         return reject(err);
@@ -38,7 +38,7 @@ const connectionFunctions = {
 
             db.serialize(() => {
                 db.run(
-                    "INSERT INTO Users (Username, Password) VALUES (?, ?)",
+                    "INSERT INTO Users (username, password) VALUES (?, ?)",
                     [username, password],
                     (err) => {
                         if (err) {
@@ -80,6 +80,19 @@ const connectionFunctions = {
                     }
                 )
             })
+        })
+    },
+
+    getUser: (username) => {
+        return new Promise((resolve, reject) => {
+            db.get("SELECT * FROM Users WHERE username = ?",
+                [username],
+                (err, row) => {
+                    if (err) {
+                        return reject("Failed to fetch user.")
+                    }
+                    resolve(row)
+                })
         })
     },
 
