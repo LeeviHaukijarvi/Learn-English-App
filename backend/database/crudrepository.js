@@ -140,7 +140,17 @@ const connectionFunctions = {
         })
     },
 
-
+    updateWords: (finnishWord, englishWord, id) => {
+        return new Promise((resolve, reject) => {
+            db.run("UPDATE Translations SET finnish_word = ?, english_word = ? WHERE id = ?",
+                [finnishWord, englishWord, id], (err) => {
+                    if (err) {
+                        return reject("Failed to update word");
+                    }
+                    resolve("Word updated successfully");
+                });
+        });
+    },
 }
 
 
