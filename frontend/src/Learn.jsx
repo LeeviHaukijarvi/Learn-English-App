@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 import { useRef } from "react";
-import { fetchWords } from "./apiUtil";
-import Login from "./Login";
+import { fetchWords, fetchTags} from "./apiUtil";
 
 function Learn() {
   const [words, setWords] = useState([]);
@@ -12,11 +11,14 @@ function Learn() {
   const [language, setLanguage] = useState("finnish");
   const [points, setPoints] = useState(0);
   const [disabledInputs, setDisabledInputs] = useState({});
+  const [tags, setTags] = useState([]);
 
+  const [selectedTags, setSelectedTags] = useState([]);
 
 
   useEffect(() => {
     loadWords();
+    loadTags();
   }, []);
 
   // Load words from the database
@@ -26,6 +28,16 @@ function Learn() {
       setWords(fetchedWords);
     } catch (error) {
       console.error("Error loading words:", error);
+    }
+  }
+
+  // Load tags from the database
+  async function loadTags() {
+    try {
+      const fetchedTags = await fetchTags();
+      setTags(fetchedTags);
+    } catch (error) {
+      console.error("Error loading tags:", error);
     }
   }
 
@@ -111,6 +123,15 @@ function Learn() {
       );
     });
   }
+
+  function mapTags() {
+      return words.map((word, index) => {
+          return (
+                  <option value={word.tag}>{word.tag}</option>
+          )
+      })
+  }
+
 
   return (
     <>
