@@ -79,27 +79,24 @@ function ParentControl() {
         }
     }
 
-    async function updateWordsTag(tag, id) {
+    async function updateWordsTag(tagId, id) {
         try {
-            const response = await fetch(`/api/${id}`, {
+            const response = await fetch(`/api/tag/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({"tag": tag})
+                body: JSON.stringify({"tag": tagId})
             })
             const data = await response.json();
             if (!response.ok) {
                 throw new Error(data.error);
             }
+            loadWords();
         } catch (error) {
             console.error(error);
             setStatusMessage(error.message);
-
         }
-
-
-
     }
 
 
@@ -145,8 +142,7 @@ function ParentControl() {
 
 
     function listWords(words) {
-        return words.map((word, index) => {
-            return (
+        return words.map((word, index) => (
                 <div key={index}>
                     <input
                         type="text"
@@ -163,23 +159,24 @@ function ParentControl() {
                         const english = englishWord[index] || word.english_word;
                         updateWords(finnish, english, word.id)}}>Save</button>
                     <button onClick={() => deleteWords(word.id)}>Delete</button>
-                    <select>
-                        onChange={(e) => {}}
+                    <select
+                        onChange={(e) => {
+                            const selectedTagId = e.target.value;
+                            updateWordsTag(selectedTagId, word.id);
+                        }}
+                        value={word.tag || ""}
+                    >
                         <option value="">No tag</option>
-                        {listTags(index)}
+                        {tags.map((tag) => (
+                            <option key={tag.id} value={tag.id}>
+                                {tag.tag}
+                            </option>
+                        ))}
                     </select>
                 </div>
             )
-        })
+        )
     }
-
-    function listTags(wordsId) {
-        return tags.map((tag, index) => (
-            <option key={index} value={tag.tag} defaultValue={tag.id === words[wordsId].tag}>
-                {tag.tag}
-            </option>
-        ));
-    };
 
     async function handleAddTag(tagName) {
         if (!tagName.trim()) {
