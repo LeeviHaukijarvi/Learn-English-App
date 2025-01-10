@@ -25,7 +25,6 @@ const connectionFunctions = {
                     if (err) {
                         return reject(err);
                     }
-                    resolve();
                 });
                 db.run(`CREATE TABLE IF NOT EXISTS Tags (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -172,7 +171,7 @@ const connectionFunctions = {
 
     getAllWords: () => {
         return new Promise((resolve, reject) => {
-            db.all("SELECT id, finnish_word, english_word FROM Translations", [], (err, rows) => {
+            db.all("SELECT id, finnish_word, english_word, tag FROM Translations", [], (err, rows) => {
                 if (err) {
                     return reject("Failed to fetch english words.")
                 }
