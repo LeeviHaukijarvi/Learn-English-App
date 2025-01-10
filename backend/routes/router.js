@@ -110,6 +110,22 @@ router.delete("/:id", async (req, res) => {
     }
 })
 
+router.delete("/tags/:id", async (req, res) => {
+    const id = parseInt(req.params.id);
+
+    try {
+        const result = await database.deleteTag(id);
+        if (result === 0) {
+            return res.status(404).json({ error: "No tags found with the provided ID" });
+        }
+        return res.status(204).send();
+
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ error: "Failed to delete tag", details: err.message });
+    }
+})
+
 router.post("/tags", async (req, res) => {
     const { tag } = req.body;
 
