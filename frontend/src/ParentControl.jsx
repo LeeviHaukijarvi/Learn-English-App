@@ -37,6 +37,21 @@ function ParentControl() {
         }
     }
 
+    async function deleteTag(tagId) {
+        try {
+            const response = await fetch(`/api/tags/${tagId}`, {
+                method: 'DELETE'
+            });
+            if (!response.ok) {
+                throw new Error("Failed to delete tag");
+            }
+            loadTags();
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+
     async function addWords(finnish, english) {
         try {
             const response = await fetch(`/api/`, {
@@ -140,6 +155,16 @@ function ParentControl() {
         }
     }
 
+    const handleDeleteTag = async (tagId) => {
+        try {
+            await deleteTag(tagId);
+            setStatusMessage("Tag deleted successfully");
+            loadTags();
+        } catch (error) {
+            console.error(error);
+            setStatusMessage(error.message);
+        }
+    };
 
     function listWords(words) {
         return words.map((word, index) => (
@@ -168,7 +193,7 @@ function ParentControl() {
                     >
                         <option value="">No tag</option>
                         {tags.map((tag) => (
-                            <option key={tag.id} value={tag.id}>
+                            <option value={tag.id} key={tag.id}>
                                 {tag.tag}
                             </option>
                         ))}
@@ -218,6 +243,14 @@ function ParentControl() {
             />
             <button onClick={() => handleAddTag(tagName)}>Add Tag</button>
             <p>{statusMessage}</p>
+
+            <h2>All Tags</h2>
+            {tags.map((tag) => (
+                <div key={tag.id}>
+                    <span>{tag.tag}</span>
+                    <button onClick={() => handleDeleteTag(tag.id)}>X</button>
+                </div>
+            ))}
             <h2>All Words</h2>
             {listWords(words)}
         </div>
