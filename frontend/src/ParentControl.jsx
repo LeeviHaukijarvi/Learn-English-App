@@ -9,7 +9,7 @@ function ParentControl() {
     const [englishWord, setEnglishWord] = useState({});
     const [tagName, setTagName] = useState('')
     const [tags, setTags] = useState([]);
-
+    const [changes, setChanges] = useState({});
 
     useEffect(() => {
         loadWords();
@@ -155,7 +155,7 @@ function ParentControl() {
         }
     }
 
-    const handleDeleteTag = async (tagId) => {
+    async function handleDeleteTag(tagId) {
         try {
             await deleteTag(tagId);
             setStatusMessage("Tag deleted successfully");
@@ -166,24 +166,37 @@ function ParentControl() {
         }
     };
 
+    function handleSaveAll() {
+        Object.keys(changes).forEach((index) => {
+            const word = words[index];
+            const finnish = finnishWord[index] || word.finnish_word;
+            const english = englishWord[index] || word.english_word;
+            updateWords(finnish, english, word.id);
+        });
+        setChanges({});
+    };
+
+
     function listWords(words) {
         return words.map((word, index) => (
                 <div key={index}>
-                    <input
-                        type="text"
-                        defaultValue={word.finnish_word}
-                        onChange={(e) => setFinnishWord({ ...finnishWord, [index]: e.target.value })}
-                    />
-                    <input
-                        type="text"
-                        defaultValue={word.english_word}
-                        onChange={(e) => setEnglishWord({ ...englishWord, [index]: e.target.value })}
-                    />
-                    <button onClick={() => {
-                        const finnish = finnishWord[index] || word.finnish_word;
-                        const english = englishWord[index] || word.english_word;
-                        updateWords(finnish, english, word.id)}}>Save</button>
-                    <button onClick={() => deleteWords(word.id)}>Delete</button>
+                <input
+                    type="text"
+                    defaultValue={word.finnish_word}
+                    onChange={(e) => {
+                        setFinnishWord({ ...finnishWord, [index]: e.target.value });
+                        setChanges({ ...changes, [index]: true });
+                    }}
+                />
+                <input
+                    type="text"
+                    defaultValue={word.english_word}
+                    onChange={(e) => {
+                        setEnglishWord({ ...englishWord, [index]: e.target.value });
+                        setChanges({ ...changes, [index]: true });
+                    }}
+                />
+                    <button onClick={() => deleteWords(word.id)}>X</button>
                     <select
                         onChange={(e) => {
                             const selectedTagId = e.target.value;
@@ -213,18 +226,23 @@ function ParentControl() {
         setStatusMessage('Tag added successfully');
     }
 
+    async function handleAddWords(e) {
+        e.preventDefault();
+        const finnish = e.target.finnish.value;
+        const english = e.target.english.value;
+        if (!finnish || !english) {
+            setStatusMessage("Words cannot be empty");
+            return;
+        }
+        addWords(finnish, english);
+        loadWords();
+    };
+
     return (
         <div>
         <h1>Parent Control</h1>
         <p>Add new words</p>
-        <form onSubmit={(e) => {
-            const finnish = e.target.finnish.value;
-            const english = e.target.english.value;
-                if (finnish === "" || english === "") {
-                    return setStatusMessage("Please fill in both fields");
-                }
-            addWords(finnish, english);
-        }}>
+        <form onSubmit={handleAddWords}>
             <label>
                 Finnish:
                 <input type="text" name="finnish" />
@@ -233,8 +251,8 @@ function ParentControl() {
                 English:
                 <input type="text" name="english" />
             </label>
-            <button type="submit">Add</button>
-            </form>
+            <button type="submit">Add Words</button>
+        </form>
             <input
                 type='text'
                 value={tagName}
@@ -244,7 +262,7 @@ function ParentControl() {
             <button onClick={() => handleAddTag(tagName)}>Add Tag</button>
             <p>{statusMessage}</p>
 
-            <h2>All Tags</h2>
+            {tags.length > 0 && <h2>Tags</h2>}
             {tags.map((tag) => (
                 <div key={tag.id}>
                     <span>{tag.tag}</span>
@@ -253,6 +271,9 @@ function ParentControl() {
             ))}
             <h2>All Words</h2>
             {listWords(words)}
+            <button onClick={handleSaveAll} disabled={Object.keys(changes).length === 0}>
+                Save
+            </button>
         </div>
     )
 
