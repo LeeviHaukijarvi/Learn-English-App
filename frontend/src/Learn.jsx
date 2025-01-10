@@ -5,6 +5,7 @@ import { fetchWords, fetchTags} from "./apiUtil";
 
 function Learn() {
   const [words, setWords] = useState([]);
+  const [allWords, setAllWords] = useState([]);
   const inputRefs = useRef([]);
   const [inputColors, setInputColors] = useState({});
   const [inputValues, setInputValues] = useState({});
@@ -13,7 +14,6 @@ function Learn() {
   const [disabledInputs, setDisabledInputs] = useState({});
   const [tags, setTags] = useState([]);
 
-  const [selectedTags, setSelectedTags] = useState([]);
 
 
   useEffect(() => {
@@ -25,11 +25,13 @@ function Learn() {
   async function loadWords() {
     try {
       const fetchedWords = await fetchWords();
+      setAllWords(fetchedWords);
       setWords(fetchedWords);
     } catch (error) {
       console.error("Error loading words:", error);
     }
   }
+
 
   // Load tags from the database
   async function loadTags() {
@@ -58,7 +60,17 @@ function Learn() {
     setPoints(0);
   };
 
+  function changeWordsByTag(tag) {
+    if (!tag) {
+      setWords(allWords); // Reset to the full list if no tag is selected
+    } else {
+      const filteredWords = allWords.filter((word) => word.tag === tag);
+      setWords(filteredWords);
+    }
+    handleRefresh();
+  }
 
+  // List the words and create the input fields
   function listWords(words, language) {
     return words.map((word, index) => {
       let toBeTranslated = '';
@@ -124,19 +136,23 @@ function Learn() {
     });
   }
 
-  function mapTags() {
-      return words.map((word, index) => {
-          return (
-                  <option value={word.tag}>{word.tag}</option>
-          )
-      })
-  }
-
-
   return (
     <>
       <h1>Learn English</h1>
       <p>Points: {points}</p>
+      <select
+        onChange={(e) => {
+          const selectedTagId = parseInt(e.target.value);
+          changeWordsByTag(selectedTagId);
+        }}
+      >
+        <option value="">No tag selected</option>
+        {tags.map((tag) => (
+          <option key={tag.id} value={tag.id}>
+            {tag.tag}
+          </option>
+        ))}
+      </select>
       {listWords(words, language)}
       <button onClick={handleRefresh}>Clear</button>
       <button onClick={() => {
