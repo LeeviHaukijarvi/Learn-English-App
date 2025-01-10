@@ -182,9 +182,20 @@ const connectionFunctions = {
 
     deleteWord: (id) => {
         return new Promise((resolve, reject) => {
-            db.run("DELETE FROM Translations WHERE id = ?", [id], function (err) {
+            db.run("DELETE FROM Translations WHERE id = ?", [id], (err) => {
                 if (err) {
                     return reject("Failed to delete word")
+                }
+                resolve(this.changes)
+            })
+        })
+    },
+
+    deleteTag: (id) => {
+        return new Promise((resolve, reject) => {
+            db.run("DELETE FROM Tags WHERE id = ?", [id], (err) => {
+                if (err) {
+                    return reject("Failed to delete tag")
                 }
                 resolve(this.changes)
             })
