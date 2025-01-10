@@ -10,7 +10,8 @@ const connectionFunctions = {
                 db.run(`CREATE TABLE IF NOT EXISTS Translations (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     finnish_word VARCHAR(255) NOT NULL UNIQUE,
-                    english_word VARCHAR(255) NOT NULL UNIQUE
+                    english_word VARCHAR(255) NOT NULL UNIQUE,
+                    tag INTEGER
                 )`, (err) => {
                     if (err) {
                         return reject(err);
@@ -20,6 +21,15 @@ const connectionFunctions = {
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     username VARCHAR(255) NOT NULL UNIQUE,
                     password VARCHAR(255) NOT NULL
+                )`, (err) => {
+                    if (err) {
+                        return reject(err);
+                    }
+                    resolve();
+                });
+                db.run(`CREATE TABLE IF NOT EXISTS Tags (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    tag VARCHAR(255) NOT NULL
                 )`, (err) => {
                     if (err) {
                         return reject(err);
@@ -54,6 +64,38 @@ const connectionFunctions = {
         })
     },
 
+    insertTag: (tag) => {
+        return new Promise((resolve, reject) => {
+            if (!tag) {
+                return reject("Tag is required");
+            }
+            db.serialize(() => {
+                db.run(
+                    "INSERT INTO Tags (tag) VALUES (?)",
+                    [tag],
+                    (err) => {
+                        if (err) {
+                            return reject(`Error adding tag: ${err}`)
+                        }
+                        resolve("Tag added succesfully")
+                    }
+                )
+            });
+        });
+    },
+
+    updateWordsTag: (tag, id) => {
+        return new Promise((resolve, reject) => {
+            db.run("UPDATE Translations SET tag = ? WHERE id = ?",
+                [tag, id], (err) => {
+                    if (err) {
+                        return reject("Failed to update tag");
+                    }
+                    resolve("Tag updated successfully");
+                });
+        });
+    },
+
     insertFinnishAndEnglish: (finnishWord, englishWord) => {
         return new Promise((resolve, reject) => {
             if (!finnishWord || !englishWord) {
@@ -66,19 +108,29 @@ const connectionFunctions = {
             }
 
             db.serialize(() => {
-                db.run(
-                    "INSERT INTO Translations (finnish_word, english_word) VALUES (?, ?)",
-                    [finnishWord, englishWord],
-                    (err) => {
-                        if (err) {
-                            if (err.code === 'SQLITE_CONSTRAINT') {
-                                return reject("Word already exists");
-                            }
-                            return reject(`Error adding words: ${err}`)
+                const query = "INSERT INTO Translations (finnish_word, english_word) VALUES (?, ?)";
+                const params = [finnishWord, englishWord];
+                db.run(query, params, (err) => {
+                    if (err) {
+                        if (err.code === 'SQLITE_CONSTRAINT') {
+                            return reject("Word already exists");
                         }
-                        resolve("Words added succesfully")
+                        return reject(`Error adding words: ${err}`)
                     }
+                    resolve("Words added succesfully")
+                }
                 )
+            })
+        })
+    },
+
+    getTags: () => {
+        return new Promise((resolve, reject) => {
+            db.all("SELECT * FROM Tags", [], (err, rows) => {
+                if (err) {
+                    return reject("Failed to fetch tags.")
+                }
+                resolve(rows)
             })
         })
     },
