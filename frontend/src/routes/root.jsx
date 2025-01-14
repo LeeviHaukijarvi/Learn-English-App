@@ -1,6 +1,8 @@
 import { Outlet } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useAuth } from "../AuthProvider";
+import "../stylesheets/Root.css";
+import Button from "@mui/material/Button";
 
 export default function Root() {
     const auth = useAuth();
@@ -18,9 +20,10 @@ export default function Root() {
                                 <Link to={`/learn`}>Learn</Link>
                             </li>
                             <li>
-                                <button
+                                <Button
+                                    variant="outlined"
                                     onClick={auth.logOut}>Logout
-                                </button>
+                                </Button>
                             </li>
                         </ul>
                     </nav>
