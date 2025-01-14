@@ -22,6 +22,11 @@ const main = async () => {
         await database.initialize();
         await database.insertFinnishAndEnglish("kissa", "cat");
         await database.insertFinnishAndEnglish("mato", "worm");
+        await database.insertFinnishAndEnglish("koira", "dog");
+        await database.insertFinnishAndEnglish("hevonen", "horse");
+        await database.insertFinnishAndEnglish("kala", "fish");
+        await database.insertFinnishAndEnglish("sika", "pig");
+        await database.insertFinnishAndEnglish("lehmä", "cow");
 
     } catch (err) {
         console.error(err)
