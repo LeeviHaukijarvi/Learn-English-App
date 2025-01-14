@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Button, Typography } from "@mui/material";
+import { Box } from "@mui/material";
+import { Container, TextField } from "@mui/material";
 
 const Register = () => {
     const [input, setInput] = useState({
@@ -46,32 +49,49 @@ const Register = () => {
     }
 
     return (
-        <div>
-            <h1>Register</h1>
-            <form onSubmit={handleSubmitChange}>
-                <div className="form_control">
-                    <label htmlFor="user-email">Email:</label>
-                    <input
-                        type="email"
-                        id="user-email"
-                        name="username"
-                        placeholder="example@yahoo.com"
-                        onChange={handleInputChange}
-                    />
-                </div>
-                <div className="form_control">
-                    <label htmlFor="password">Password:</label>
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        onChange={handleInputChange}
-                    />
-                </div>
-                <button className="btn-submit">Submit</button>
-            </form>
-        </div>
+        <Container>
+            <Box
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                }}
+            >
+                <Typography variant="h1" sx={{ m: 4 }}>
+                    Register
+                </Typography>
+                <form onSubmit={handleSubmitChange}>
+                    <Box sx={{ mb: 2 }}>
+                        <TextField
+                            fullWidth
+                            label="Email"
+                            type="email"
+                            id="user-email"
+                            name="username"
+                            placeholder="example@gmail.com"
+                            onChange={handleInputChange}
+                            variant="outlined"
+                        />
+                    </Box>
+                    <Box sx={{ mb: 2 }}>
+                        <TextField
+                            fullWidth
+                            label="Password"
+                            type="password"
+                            id="password"
+                            name="password"
+                            onChange={handleInputChange}
+                            variant="outlined"
+                        />
+                    </Box>
+                    <Button type="submit" fullWidth>
+                        Submit
+                    </Button>
+                </form>
+            </Box>
+        </Container>
     );
-};
+}
 
 export default Register;
