@@ -1,8 +1,19 @@
 import { useState, useEffect } from 'react';
 import { fetchWords, fetchTags } from './apiUtil';
+import { Container, MenuItem, Stack, Typography } from '@mui/material';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Select from '@mui/material/Select';
+import TextField from '@mui/material/TextField';
+import DeleteIcon from '@mui/icons-material/Delete';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid2';
 
 
 function ParentControl() {
+
     const [statusMessage, setStatusMessage] = useState('');
     const [words, setWords] = useState([]);
     const [finnishWord, setFinnishWord] = useState({});
@@ -115,7 +126,7 @@ function ParentControl() {
     }
 
 
-    async function deleteWords(id) {
+    async function handleDeleteWords(id) {
         try {
             const response = await fetch(`/api/${id}`, {
                 method: 'DELETE'
@@ -179,42 +190,67 @@ function ParentControl() {
 
     function listWords(words) {
         return words.map((word, index) => (
-                <div key={index}>
-                <input
-                    type="text"
-                    defaultValue={word.finnish_word}
-                    onChange={(e) => {
-                        setFinnishWord({ ...finnishWord, [index]: e.target.value });
-                        setChanges({ ...changes, [index]: true });
-                    }}
-                />
-                <input
-                    type="text"
-                    defaultValue={word.english_word}
-                    onChange={(e) => {
-                        setEnglishWord({ ...englishWord, [index]: e.target.value });
-                        setChanges({ ...changes, [index]: true });
-                    }}
-                />
-                    <button onClick={() => deleteWords(word.id)}>X</button>
-                    <select
-                        onChange={(e) => {
-                            const selectedTagId = e.target.value;
-                            updateWordsTag(selectedTagId, word.id);
-                        }}
-                        value={word.tag || ""}
-                    >
-                        <option value="">No tag</option>
-                        {tags.map((tag) => (
-                            <option value={tag.id} key={tag.id}>
-                                {tag.tag}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-            )
-        )
-    }
+            <Paper key={index} sx={{ p: 2, mb: 2 }}>
+                <Grid container spacing={2} alignItems="center">
+                    <Grid item xs={12} md={4}>
+                        <TextField
+                            fullWidth
+                            defaultValue={word.finnish_word}
+                            onChange={(e) => {
+                                setFinnishWord({ ...finnishWord, [index]: e.target.value });
+                                setChanges({ ...changes, [index]: true });
+                            }}
+                            label="Finnish Word"
+                            variant="outlined"
+                        />
+                    </Grid>
+                    <Grid item xs={12} md={4}>
+                        <TextField
+                            fullWidth
+                            defaultValue={word.english_word}
+                            onChange={(e) => {
+                                setEnglishWord({ ...englishWord, [index]: e.target.value });
+                                setChanges({ ...changes, [index]: true });
+                            }}
+                            label="English Word"
+                            variant="outlined"
+                        />
+                    </Grid>
+                    {tags.length > 0 && (
+                        <Grid item xs={12} md={2}>
+                            <FormControl fullWidth>
+                                <InputLabel>Tag</InputLabel>
+                                <Select
+                                    onChange={(e) => {
+                                        const selectedTagId = e.target.value;
+                                        updateWordsTag(selectedTagId, word.id);
+                                    }}
+                                    value={word.tag || ""}
+                                    label="Tag"
+                                >
+                                    {tags.map((tag) => (
+                                        <MenuItem value={tag.id} key={tag.id}>
+                                            {tag.tag}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                    )}
+                    <Grid item xs={12} md={2}>
+                        <Button
+                            startIcon={<DeleteIcon />}
+                            onClick={() => handleDeleteWords(word.id)}
+                            color="secondary"
+                            fullWidth
+                        >
+                            Delete
+                        </Button>
+                    </Grid>
+                </Grid>
+            </Paper>
+        ));
+    };
 
     async function handleAddTag(tagName) {
         if (!tagName.trim()) {
@@ -239,42 +275,77 @@ function ParentControl() {
     };
 
     return (
-        <div>
-        <h1>Parent Control</h1>
-        <p>Add new words</p>
-        <form onSubmit={handleAddWords}>
-            <label>
-                Finnish:
-                <input type="text" name="finnish" />
-            </label>
-            <label>
-                English:
-                <input type="text" name="english" />
-            </label>
-            <button type="submit">Add Words</button>
-        </form>
-            <input
-                type='text'
-                value={tagName}
-                placeholder='Tag name'
-                onChange={(e) => setTagName(e.target.value)}
-            />
-            <button onClick={() => handleAddTag(tagName)}>Add Tag</button>
-            <p>{statusMessage}</p>
+        <Container>
+            <Box sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+            }}>
+                <Typography sx={{m: 2}} variant="h1">
+                    Parent Control
+                </Typography>
 
-            {tags.length > 0 && <h2>Tags</h2>}
-            {tags.map((tag) => (
-                <div key={tag.id}>
-                    <span>{tag.tag}</span>
-                    <button onClick={() => handleDeleteTag(tag.id)}>X</button>
-                </div>
-            ))}
-            <h2>All Words</h2>
-            {listWords(words)}
-            <button onClick={handleSaveAll} disabled={Object.keys(changes).length === 0}>
-                Save
-            </button>
-        </div>
+                <Typography sx={{m: 2}} variant='h3'>Add new words</Typography>
+
+            <form onSubmit={handleAddWords}>
+                <Grid container spacing={2} alignItems="center">
+                    <Grid item xs={12} md={6}>
+                        <TextField variant="outlined" label="Finnish" name="finnish" />
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                        <TextField variant="outlined" label="English" name="english"/>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                            <Button type="submit" color="secondary">
+                                Add Words
+                            </Button>
+                        </Box>
+                    </Grid>
+                </Grid>
+            </form>
+            <Grid container spacing={2} alignItems="center">
+                <Grid item xs={12} md={6} sx={{ mt: 2 }}>
+                    <TextField variant="outlined" label="Tag Name" name="tagName"
+                        onChange={(e) => setTagName(e.target.value)}
+                    />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                    <Button type="submit" color="secondary"
+                        onClick={() => handleAddTag(tagName)}
+                    >
+                    Add Tag
+                    </Button>
+                </Grid>
+            </Grid>
+
+            <Typography variant='h4'>{statusMessage}</Typography>
+
+            {tags.length > 0 && <Typography sx={{mt: 2}} variant='h2'>Tags</Typography>}
+            <Box sx={{mb: 2 , mt: 2,  display: 'flex', flexDirection: 'column',}}>
+                    {tags.map((tag) => (
+                        <Box key={tag.id} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+                            <Typography variant='h3'>{tag.tag}</Typography>
+                            <Button sx={{ml: 2}} startIcon={<DeleteIcon />} onClick={() => handleDeleteTag(tag.id)}> DELETE</Button>
+                        </Box>
+                    ))}
+            </Box>
+            </Box>
+            <Box
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                }}
+            >
+                {listWords(words)}
+                <Button onClick={handleSaveAll} disabled={Object.keys(changes).length === 0}>
+                    Save
+                </Button>
+            </Box>
+        </Container>
     )
 
 }
