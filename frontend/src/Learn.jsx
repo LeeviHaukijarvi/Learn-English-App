@@ -122,11 +122,11 @@ function Learn() {
 
       // Set the correct word to be translated and the correct translation
       if (language === "finnish") {
-        toBeTranslated = word.finnish_word;
-        translated = word.english_word;
+        toBeTranslated = word.finnish_word.charAt(0).toUpperCase() + word.finnish_word.slice(1);
+        translated = word.english_word.charAt(0).toUpperCase() + word.english_word.slice(1);
       } else if (language === "english") {
-        toBeTranslated = word.english_word;
-        translated = word.finnish_word;
+        toBeTranslated = word.english_word.charAt(0).toUpperCase() + word.english_word.slice(1);
+        translated = word.finnish_word.charAt(0).toUpperCase() + word.finnish_word.slice(1);
       }
 
       return (
@@ -143,7 +143,7 @@ function Learn() {
               <Grid>
                 <Typography
                   variant='h3'
-                  sx={{ m: 1, textAlign: "center", color: "primary.main" }}
+                  sx={{ m: 1, textAlign: "center", color: "white" }}
                 >
                   {toBeTranslated}
                 </Typography>
