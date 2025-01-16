@@ -310,6 +310,8 @@ function ParentControl() {
                             onClick={() => handleDeleteWords(word.id)}
                             color="secondary"
                             fullWidth
+                            sx={{ color: 'white' }}
+
                         >
                             Delete
                         </Button>
@@ -374,7 +376,7 @@ function ParentControl() {
                             </Grid>
                             <Grid item xs={12} md={6}>
                                 <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                                    <Button type="submit" color="secondary">
+                                    <Button type="submit" color="secondary" sx={{ color: 'white' }}>
                                         Add Words
                                     </Button>
                                 </Box>
@@ -391,6 +393,7 @@ function ParentControl() {
                         <Grid item xs={12} md={6}>
                             <Button type="submit" color="secondary"
                                 onClick={() => handleAddTag(tagName)}
+                                sx={{ color: 'white'}}
                             >
                                 Add Tag
                             </Button>
@@ -418,7 +421,11 @@ function ParentControl() {
                 }}
             >
                 {listWords(words)}
-                <Button onClick={handleSaveAll} disabled={Object.keys(changes).length === 0}>
+                <Button
+                    onClick={handleSaveAll}
+                    sx={{ color: 'white' }}
+                    disabled={Object.keys(changes).length === 0}
+                >
                     Save
                 </Button>
             </Box>
