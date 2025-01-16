@@ -1,12 +1,31 @@
+/**
+ * AuthContext provides authentication state and actions.
+ * @typedef {Object} AuthContext
+ * @property {string} token - The authentication token.
+ * @property {Object|null} user - The authenticated user object.
+ * @property {Function} loginAction - Function to log in a user.
+ * @property {Function} logOut - Function to log out the user.
+ */
+
 import { useContext, createContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+/**
+ * Custom hook to use the AuthContext.
+ * @returns {AuthContext} The authentication context.
+ */
 
 const AuthContext = createContext();
 
 export const useAuth = () => {
     return useContext(AuthContext);
 };
-
+/**
+ * AuthProvider component that provides authentication state and actions to its children.
+ * If the user is authenticated, it sets the user and token in the context.
+ * @param {React.ReactNode} props.children - The child components.
+ * @returns {JSX.Element} The AuthProvider component.
+ */
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [token, setToken] = useState(localStorage.getItem("site") || "");
@@ -38,7 +57,10 @@ const AuthProvider = ({ children }) => {
             console.error(err);
         }
     };
-
+    /**
+     * @function logOut
+     * Removes the token from the local storage and navigates to the login page.
+     */
     const logOut = () => {
         setUser(null);
         setToken("");

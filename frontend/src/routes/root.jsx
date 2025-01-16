@@ -1,3 +1,14 @@
+/**
+ * Root component that handles the main navigation and routing for the application.
+ *
+ * This component uses the `useAuth` hook to determine if the user is authenticated.
+ * If the user is authenticated, it displays navigation links for "Learn" and "Parent Control",
+ * along with a "Log out" button. If the user is not authenticated, it displays navigation links
+ * for "Learn", "Login", and "Register".
+ *
+ *
+ * @returns {JSX.Element} The rendered Root component.
+ */
 import { Outlet } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useAuth } from "../AuthProvider";
@@ -19,7 +30,6 @@ export default function Root() {
                             <li>
                                 <Link to={`/parent-control`}>Parent Control</Link>
                             </li>
-
                         </ul>
                         <Button
                             sx={{ ml: 2 }}

@@ -1,5 +1,19 @@
 import { createTheme } from '@mui/material';
 
+/**
+ * Creates a custom theme for the application using Material-UI's `createTheme` function.
+ *
+ * The theme includes:
+ * - A palette with primary and secondary colors.
+ * - Typography settings for various heading levels.
+ * - Component overrides for Material-UI's Button component.
+ *
+ * Palette:
+ * - Primary color: Black (#000000)
+ * - Secondary color: Green (#38b38e)
+ *
+ * @returns {object} The custom theme object.
+ */
 export const theme = createTheme({
     palette: {
         primary: {
@@ -8,7 +22,6 @@ export const theme = createTheme({
         secondary: {
             main: '#38b38e',
         },
-
     },
 
     typography: {
@@ -29,7 +42,6 @@ export const theme = createTheme({
             fontSize: '1rem',
             fontWeight: 500,
         }
-
     },
 
     components: {
@@ -45,6 +57,5 @@ export const theme = createTheme({
                 },
             },
         },
-
     },
 });
