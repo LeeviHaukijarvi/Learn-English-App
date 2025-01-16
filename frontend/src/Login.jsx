@@ -84,7 +84,7 @@ const Login = () => {
                             variant="outlined"
                         />
                     </Box>
-                    <Button type="submit" fullWidth>
+                    <Button type="submit" fullWidth sx={{ color: "white" }}>
                         Login
                     </Button>
                 </form>

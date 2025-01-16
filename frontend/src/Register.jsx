@@ -113,7 +113,7 @@ const Register = () => {
                             variant="outlined"
                         />
                     </Box>
-                    <Button type="submit" fullWidth>
+                    <Button type="submit" fullWidth sx={{ color: "white" }}>
                         Register
                     </Button>
                 </form>
