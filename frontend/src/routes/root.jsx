@@ -14,18 +14,19 @@ export default function Root() {
                     <nav>
                         <ul>
                             <li>
-                                <Link to={`/parent-control`}>Parent Control</Link>
-                            </li>
-                            <li>
                                 <Link to={`/learn`}>Learn</Link>
                             </li>
                             <li>
-                                <Button
-                                    variant="outlined"
-                                    onClick={auth.logOut}>Logout
-                                </Button>
+                                <Link to={`/parent-control`}>Parent Control</Link>
                             </li>
+
                         </ul>
+                        <Button
+                            sx={{ ml: 2 }}
+                            color="secondary"
+                            variant="outlined"
+                            onClick={auth.logOut}>Log out
+                        </Button>
                     </nav>
                 </div>
                 <div id="detail">
