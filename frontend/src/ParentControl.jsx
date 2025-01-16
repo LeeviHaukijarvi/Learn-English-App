@@ -221,6 +221,7 @@ function ParentControl() {
                             <FormControl fullWidth>
                                 <InputLabel>Tag</InputLabel>
                                 <Select
+                                    sx={{ minWidth: 70 }}
                                     onChange={(e) => {
                                         const selectedTagId = e.target.value;
                                         updateWordsTag(selectedTagId, word.id);
@@ -282,55 +283,56 @@ function ParentControl() {
                 alignItems: 'center',
                 justifyContent: 'center',
             }}>
-                <Typography sx={{m: 2}} variant="h1">
+                <Typography sx={{m: 2, fontSize: '2rem', fontWeight: 500}}>
                     Parent Control
                 </Typography>
 
                 <Typography sx={{m: 2}} variant='h3'>Add new words</Typography>
-
-            <form onSubmit={handleAddWords}>
-                <Grid container spacing={2} alignItems="center">
-                    <Grid item xs={12} md={6}>
-                        <TextField variant="outlined" label="Finnish" name="finnish" />
+            <Box sx={{alignItems: 'left', justifyContent: 'left'}}>
+                <form onSubmit={handleAddWords}>
+                    <Grid container spacing={2} alignItems="left">
+                        <Grid item xs={12} md={6}>
+                            <TextField variant="outlined" label="Finnish" name="finnish" />
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                            <TextField variant="outlined" label="English" name="english" />
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                                <Button type="submit" color="secondary">
+                                    Add Words
+                                </Button>
+                            </Box>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={12} md={6}>
-                        <TextField variant="outlined" label="English" name="english"/>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                            <Button type="submit" color="secondary">
-                                Add Words
+                </form>
+                    <Grid container spacing={2} alignItems="center">
+                        <Grid item xs={12} md={6} sx={{ mt: 2 }}>
+                            <TextField variant="outlined" label="Tag Name" name="tagName"
+                                onChange={(e) => setTagName(e.target.value)}
+                            />
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                            <Button type="submit" color="secondary"
+                                onClick={() => handleAddTag(tagName)}
+                            >
+                            Add Tag
                             </Button>
-                        </Box>
+                        </Grid>
                     </Grid>
-                </Grid>
-            </form>
-            <Grid container spacing={2} alignItems="center">
-                <Grid item xs={12} md={6} sx={{ mt: 2 }}>
-                    <TextField variant="outlined" label="Tag Name" name="tagName"
-                        onChange={(e) => setTagName(e.target.value)}
-                    />
-                </Grid>
-                <Grid item xs={12} md={6}>
-                    <Button type="submit" color="secondary"
-                        onClick={() => handleAddTag(tagName)}
-                    >
-                    Add Tag
-                    </Button>
-                </Grid>
-            </Grid>
+                </Box>
+                <Typography variant='h3' sx={{mt: 2}}>{statusMessage} </Typography>
 
-            <Typography variant='h4'>{statusMessage}</Typography>
+                {tags.length > 0 && <Typography sx={{mt: 2}} variant='h2'>Tags</Typography>}
+                <Box sx={{mb: 2 , mt: 2,  display: 'flex', flexDirection: 'column',}}>
+                        {tags.map((tag) => (
+                            <Box key={tag.id} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
 
-            {tags.length > 0 && <Typography sx={{mt: 2}} variant='h2'>Tags</Typography>}
-            <Box sx={{mb: 2 , mt: 2,  display: 'flex', flexDirection: 'column',}}>
-                    {tags.map((tag) => (
-                        <Box key={tag.id} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
-                            <Typography variant='h3'>{tag.tag}</Typography>
-                            <Button sx={{ml: 2}} startIcon={<DeleteIcon />} onClick={() => handleDeleteTag(tag.id)}> DELETE</Button>
-                        </Box>
+                                <Typography variant='h4'>{tag.tag}</Typography>
+                                <Button sx={{ml: 2}} startIcon={<DeleteIcon />} onClick={() => handleDeleteTag(tag.id)}>DELETE</Button>
+                            </Box>
                     ))}
-            </Box>
+                </Box>
             </Box>
             <Box
                 sx={{
