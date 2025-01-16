@@ -1,12 +1,12 @@
 nav {
-    background-color: #38b38e;
     overflow: hidden;
     display: flex;
     justify-content: center;
-
 }
 
 nav ul {
+    background-color: #38b38e;
+    border-radius: 4px;
     display: flex;
     margin: 0;
     padding: 0;
@@ -17,11 +17,13 @@ nav li {
 }
 
 nav a {
+    font-family: 'Roboto', sans-serif;
+    font-size: large;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    color: #f2f2f2;
-    padding: 14px 16px;
+    color: #000000;
+    padding: 10px 16px;
     text-decoration: none;
 }
 
