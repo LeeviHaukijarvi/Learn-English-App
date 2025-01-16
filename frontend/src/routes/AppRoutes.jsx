@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Root from './Root';
+import Root from './root';
 import Learn from '../Learn';
 import Login from '../Login';
 import ParentControl from '../ParentControl';
