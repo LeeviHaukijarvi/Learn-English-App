@@ -254,7 +254,7 @@ function Learn() {
       >
         <Button
           onClick={handleRefresh}
-          sx={{ mr: 1 }}
+          sx={{ mr: 1, color: "white" }}
           variant="contained"
           color="secondary"
         >
@@ -271,7 +271,7 @@ function Learn() {
           }}
           variant="contained"
           color="secondary"
-          sx={{ m: 2 }}
+          sx={{ m: 2, color: "white" }}
         >
           Flip
         </Button>
