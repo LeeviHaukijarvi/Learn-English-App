@@ -2,6 +2,13 @@ input {
     padding: 10px;
     border: 2px solid #ccc;
     border-radius: 4px;
-    font-size: 12px;
+    font-size: 16px;
     box-sizing: border-box;
+}
+
+@media (max-width: 600px) {
+    input {
+        margin-left: 40px;
+        margin-right: 40px;
+    }
 }
