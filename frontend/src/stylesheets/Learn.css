@@ -1,11 +1,7 @@
 input {
-    padding: 5px;
+    padding: 10px;
     border: 2px solid #ccc;
     border-radius: 4px;
     font-size: 12px;
     box-sizing: border-box;
-}
-
-input:disabled {
-    color: #ffffff;
 }

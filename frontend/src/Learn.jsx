@@ -131,7 +131,7 @@ function Learn() {
 
       return (
         <div key={index}>
-          <Paper elevation={3} sx={{ p: 2, bgcolor: 'secondary.main' }}>
+          <Paper elevation={3} sx={{ p: { xs: 4, md: 2 }, bgcolor: 'secondary.main' }}>
             <Box
               sx={{
                 display: 'flex',
@@ -254,7 +254,7 @@ function Learn() {
       >
         <Button
           onClick={handleRefresh}
-          sx={{ mr: 1, color: "white" }}
+          sx={{ color: "white" }}
           variant="contained"
           color="secondary"
         >
