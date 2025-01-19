@@ -35,11 +35,11 @@ To run the application locally, follow these steps:
     ```
 
 3. **Set up environment variables**:
-    Create a `.env` file in the root directory and add the following environment variables:
+    Create a `.env` file in the root of backend directory and add the following environment variables:
     ```env
-    SECRETKEY=your_jwt_secret
+    SECRET_KEY=your_jwt_secret
+    MODE=dev // add this if using app in development
     ```
-
 4. **Run the application**:
     ```sh
     npm run start
