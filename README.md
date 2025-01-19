@@ -52,6 +52,8 @@ To run the application locally, follow these steps:
 1. Navigate to the "Learn" section.
 2. Translate the words and check your answers.
 3. Track your points.
+   
+![kuva_2025-01-19_231840025](https://github.com/user-attachments/assets/f39dca8e-4eb4-4594-9c20-bf96ac8381fa)
 
 ### Parent Control
 
@@ -59,11 +61,18 @@ To run the application locally, follow these steps:
 2. Add, update, or delete words and tags.
 3. Manage the learning content for your children.
 
+![kuva_2025-01-19_232627552](https://github.com/user-attachments/assets/50ad7536-983b-4660-ba0b-c18d8d947981)
+
+
 ### User Authentication
 
 1. Register a new account or log in with an existing account.
 2. Access the "Parent Control" section and do changes.
 3. Log out when your child wants to play.
+
+## Screencast
+
+[Video](https://youtu.be/LHYMZUnOH5Q)
 
 ## Contact
 
