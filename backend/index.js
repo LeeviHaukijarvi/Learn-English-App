@@ -4,9 +4,11 @@ const port = process.env.PORT || 5000;
 const path = require('path');
 const database = require("./database/crudrepository");
 const router = require("./routes/router");
-const cors = require('cors');
 
-app.use(cors());
+if (process.env.MODE === 'dev') {
+    const cors = require('cors');
+    app.use(cors());
+}
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
@@ -36,5 +38,9 @@ const main = async () => {
 main();
 
 app.listen(port, () => {
-    console.log(`Learn English App listening on port ${port}`)
+    if (process.env.MODE === 'dev') {
+        console.log(`Learn English App listening on port ${port} in development mode`)
+    } else {
+        console.log(`Learn English App listening on port ${port}`)
+    }
 })
