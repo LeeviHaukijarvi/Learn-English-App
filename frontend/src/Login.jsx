@@ -4,6 +4,13 @@ import { Button, Typography } from "@mui/material";
 import { Box } from "@mui/material";
 import { Container, TextField } from "@mui/material";
 
+/**
+ * Login component renders a login form with fields for username and password.
+ * It uses the useAuth hook to handle authentication.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered login form component.
+ */
 const Login = () => {
     const [input, setInput] = useState({
         username: "",
@@ -11,7 +18,12 @@ const Login = () => {
     });
 
     const auth = useAuth();
-
+    /**
+     * Handles the form submission event.
+     * Uses the loginAction method from the useAuth hook to authenticate the user.
+     * @function
+     * @param {Object} e - The event object.
+     */
     const handleSubmitChange = (e) => {
         e.preventDefault();
         if (input.username !== "" && input.password !== "") {
@@ -20,6 +32,12 @@ const Login = () => {
         }
         alert("Fields cannot be empty");
     };
+    /**
+     * Handles input change events for form elements.
+     *
+     * @param {Object} e - The event object.
+     * @function
+     */
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -66,8 +84,8 @@ const Login = () => {
                             variant="outlined"
                         />
                     </Box>
-                    <Button type="submit" fullWidth>
-                        Submit
+                    <Button type="submit" fullWidth sx={{ color: "white" }}>
+                        Login
                     </Button>
                 </form>
             </Box>

@@ -1,4 +1,32 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Learn.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Learn.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  * This component fetches words and tags from the database and displays them for the user to translate.
  * Users can select a tag to filter words, input translations, and check their answers.
  * UI design is implemented using Material-UI components.
@@ -41,7 +69,7 @@ function Learn() {
    * Fetches words from the database and sets the states.
    * @async
    * @function
-   * @returns {Promise<void>}
+   * @returns {Promise&lt;void>}
    */
   async function loadWords() {
     try {
@@ -57,7 +85,7 @@ function Learn() {
    * Fetches tags from the database and sets the state.
    * @async
    * @function
-   * @returns {Promise<void>}
+   * @returns {Promise&lt;void>}
    */
   async function loadTags() {
     try {
@@ -122,17 +150,17 @@ function Learn() {
 
       // Set the correct word to be translated and the correct translation
       if (language === "finnish") {
-        toBeTranslated = word.finnish_word
-        translated = word.english_word
+        toBeTranslated = word.finnish_word;
+        translated = word.english_word;
       } else if (language === "english") {
-        toBeTranslated = word.english_word
-        translated = word.finnish_word
+        toBeTranslated = word.english_word;
+        translated = word.finnish_word;
       }
 
       return (
-        <div key={index}>
-          <Paper elevation={3} sx={{ p: { xs: 4, md: 2 }, bgcolor: 'secondary.main' }}>
-            <Box
+        &lt;div key={index}>
+          &lt;Paper elevation={3} sx={{ p: 2, bgcolor: 'secondary.main' }}>
+            &lt;Box
               sx={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -140,17 +168,17 @@ function Learn() {
                 justifyContent: 'center',
               }}
             >
-              <Grid>
-                <Typography
+              &lt;Grid>
+                &lt;Typography
                   variant='h3'
-                  sx={{ m: 1, textAlign: "center", color: "white" }}
+                  sx={{ m: 1, textAlign: "center", color: "primary.main" }}
                 >
-                  {toBeTranslated.charAt(0).toUpperCase() + toBeTranslated.slice(1)}
-                </Typography>
-              </Grid>
+                  {toBeTranslated}
+                &lt;/Typography>
+              &lt;/Grid>
 
-              <Grid>
-                <input
+              &lt;Grid>
+                &lt;input
                   ref={(ref) => (inputRefs.current[index] = ref)} // Set the unique ref for each input
                   type="text"
                   placeholder={placeholder}
@@ -167,10 +195,10 @@ function Learn() {
                     changeColor(index, "");
                   }}
                 />
-              </Grid>
+              &lt;/Grid>
 
-              <Grid>
-                <Button
+              &lt;Grid>
+                &lt;Button
                   sx={{ mt: 1, bgcolor: 'white' }}
                   onClick={() => {
                     // Check if the input value matches the English word
@@ -192,18 +220,18 @@ function Learn() {
                   disabled={disabledInputs[index]}
                 >
                   Check
-                </Button>
-              </Grid>
-            </Box>
-          </Paper>
-        </div>
+                &lt;/Button>
+              &lt;/Grid>
+            &lt;/Box>
+          &lt;/Paper>
+        &lt;/div>
       );
     });
   }
 
   return (
-    <Container>
-      <Box
+    &lt;Container>
+      &lt;Box
         sx={{
           display: 'flex',
           flexDirection: 'column',
@@ -211,17 +239,17 @@ function Learn() {
           justifyContent: 'center',
         }}
       >
-        <Typography variant="h1" sx={{ my: 4, textAlign: "center", color: "primary.main" }}>
+        &lt;Typography variant="h1" sx={{ my: 4, textAlign: "center", color: "primary.main" }}>
           Learn English
-        </Typography>
-        <Typography variant='h3'>
+        &lt;/Typography>
+        &lt;Typography variant='h3'>
           Points: {points}
-        </Typography>
+        &lt;/Typography>
 
-        <Box>
-          <FormControl sx={{ m: 3, minWidth: 80 }}>
-            <InputLabel id="tag-select">Tag</InputLabel>
-            <Select
+        &lt;Box>
+          &lt;FormControl sx={{ m: 3, minWidth: 80 }}>
+            &lt;InputLabel id="tag-select">Tag&lt;/InputLabel>
+            &lt;Select
               onChange={(e) => {
                 const tagId = parseInt(e.target.value);
                 changeWordsByTag(tagId);
@@ -231,20 +259,20 @@ function Learn() {
               label="Tag"
               value={selectedTagId}
             >
-              <MenuItem value={0}>All</MenuItem>
+              &lt;MenuItem value={0}>All&lt;/MenuItem>
               {tags.map((tag) => (
-                <MenuItem key={tag.id} value={tag.id}>
+                &lt;MenuItem key={tag.id} value={tag.id}>
                   {tag.tag}
-                </MenuItem>
+                &lt;/MenuItem>
               ))}
-            </Select>
-          </FormControl>
-        </Box>
-        <Grid container spacing={2} sx={{ justifyContent: 'center' }}>
+            &lt;/Select>
+          &lt;/FormControl>
+        &lt;/Box>
+        &lt;Grid container spacing={2} sx={{ justifyContent: 'center' }}>
           {listWords(words, language)}
-        </Grid>
-      </Box>
-      <Box
+        &lt;/Grid>
+      &lt;/Box>
+      &lt;Box
         sx={{
           display: 'flex',
           flexDirection: 'row',
@@ -252,15 +280,15 @@ function Learn() {
           justifyContent: 'center',
         }}
       >
-        <Button
+        &lt;Button
           onClick={handleRefresh}
-          sx={{ color: "white" }}
+          sx={{ mr: 1 }}
           variant="contained"
           color="secondary"
         >
           Clear
-        </Button>
-        <Button
+        &lt;/Button>
+        &lt;Button
           onClick={() => {
             if (language === "finnish") {
               setLanguage("english");
@@ -271,14 +299,37 @@ function Learn() {
           }}
           variant="contained"
           color="secondary"
-          sx={{ m: 2, color: "white" }}
+          sx={{ m: 2 }}
         >
           Flip
-        </Button>
-      </Box>
-    </Container>
+        &lt;/Button>
+      &lt;/Box>
+    &lt;/Container>
   );
 }
 
 
 export default Learn;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AppRoutes">AppRoutes</a></li><li><a href="global.html#AuthProvider">AuthProvider</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#Register">Register</a></li><li><a href="global.html#fetchTags">fetchTags</a></li><li><a href="global.html#fetchWords">fetchWords</a></li><li><a href="global.html#logOutRemovesthetokenfromthelocalstorageandnavigatestotheloginpage.">logOutRemoves the token from the local storage and navigates to the login page.</a></li><li><a href="global.html#registerUser">registerUser</a></li><li><a href="global.html#root">root</a></li><li><a href="global.html#theme">theme</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Thu Jan 16 2025 20:30:09 GMT+0200 (Itä-Euroopan normaaliaika)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

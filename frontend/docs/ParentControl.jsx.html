@@ -1,4 +1,32 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: ParentControl.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: ParentControl.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  * ParentControl component manages the state and UI for adding, updating, and deleting words and tags.
  * UI design is implemented using Material-UI components.
  *
@@ -195,7 +223,7 @@ function ParentControl() {
      * @param {number} id - The ID of the words to update.
      */
     async function updateWords(finnish, english, id) {
-        if (!finnish && !english) {
+        if (!finnish &amp;&amp; !english) {
             return setStatusMessage("Cannot save empty words");
         }
         try {
@@ -256,10 +284,10 @@ function ParentControl() {
 
     function listWords(words) {
         return words.map((word, index) => (
-            <Paper key={index} sx={{ p: 2, mb: 2 }}>
-                <Grid container spacing={2} alignItems="center">
-                    <Grid item xs={12} md={4}>
-                        <TextField
+            &lt;Paper key={index} sx={{ p: 2, mb: 2 }}>
+                &lt;Grid container spacing={2} alignItems="center">
+                    &lt;Grid item xs={12} md={4}>
+                        &lt;TextField
                             fullWidth
                             defaultValue={word.finnish_word}
                             onChange={(e) => {
@@ -269,9 +297,9 @@ function ParentControl() {
                             label="Finnish Word"
                             variant="outlined"
                         />
-                    </Grid>
-                    <Grid item xs={12} md={4}>
-                        <TextField
+                    &lt;/Grid>
+                    &lt;Grid item xs={12} md={4}>
+                        &lt;TextField
                             fullWidth
                             defaultValue={word.english_word}
                             onChange={(e) => {
@@ -281,12 +309,12 @@ function ParentControl() {
                             label="English Word"
                             variant="outlined"
                         />
-                    </Grid>
-                    {tags.length > 0 && (
-                        <Grid item xs={12} md={2}>
-                            <FormControl fullWidth>
-                                <InputLabel>Tag</InputLabel>
-                                <Select
+                    &lt;/Grid>
+                    {tags.length > 0 &amp;&amp; (
+                        &lt;Grid item xs={12} md={2}>
+                            &lt;FormControl fullWidth>
+                                &lt;InputLabel>Tag&lt;/InputLabel>
+                                &lt;Select
                                     sx={{ minWidth: 70 }}
                                     onChange={(e) => {
                                         const selectedTagId = e.target.value;
@@ -296,28 +324,26 @@ function ParentControl() {
                                     label="Tag"
                                 >
                                     {tags.map((tag) => (
-                                        <MenuItem value={tag.id} key={tag.id}>
+                                        &lt;MenuItem value={tag.id} key={tag.id}>
                                             {tag.tag}
-                                        </MenuItem>
+                                        &lt;/MenuItem>
                                     ))}
-                                </Select>
-                            </FormControl>
-                        </Grid>
+                                &lt;/Select>
+                            &lt;/FormControl>
+                        &lt;/Grid>
                     )}
-                    <Grid item xs={12} md={2}>
-                        <Button
-                            startIcon={<DeleteIcon />}
+                    &lt;Grid item xs={12} md={2}>
+                        &lt;Button
+                            startIcon={&lt;DeleteIcon />}
                             onClick={() => handleDeleteWords(word.id)}
                             color="secondary"
                             fullWidth
-                            sx={{ color: 'white' }}
-
                         >
                             Delete
-                        </Button>
-                    </Grid>
-                </Grid>
-            </Paper>
+                        &lt;/Button>
+                    &lt;/Grid>
+                &lt;/Grid>
+            &lt;/Paper>
         ));
     }
     /**
@@ -353,66 +379,65 @@ function ParentControl() {
     }
 
     return (
-        <Container>
-            <Box sx={{
+        &lt;Container>
+            &lt;Box sx={{
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
             }}>
-                <Typography sx={{ m: 2, fontSize: '2rem', fontWeight: 500 }}>
+                &lt;Typography sx={{ m: 2, fontSize: '2rem', fontWeight: 500 }}>
                     Parent Control
-                </Typography>
+                &lt;/Typography>
 
-                <Typography sx={{ m: 2 }} variant='h3'>Add new words</Typography>
-                <Box sx={{ alignItems: 'left', justifyContent: 'left' }}>
-                    <form onSubmit={handleAddWords}>
-                        <Grid container spacing={2} alignItems="left">
-                            <Grid item xs={12} md={6}>
-                                <TextField variant="outlined" label="Finnish" name="finnish" />
-                            </Grid>
-                            <Grid item xs={12} md={6}>
-                                <TextField variant="outlined" label="English" name="english" />
-                            </Grid>
-                            <Grid item xs={12} md={6}>
-                                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                                    <Button type="submit" color="secondary" sx={{ color: 'white' }}>
+                &lt;Typography sx={{ m: 2 }} variant='h3'>Add new words&lt;/Typography>
+                &lt;Box sx={{ alignItems: 'left', justifyContent: 'left' }}>
+                    &lt;form onSubmit={handleAddWords}>
+                        &lt;Grid container spacing={2} alignItems="left">
+                            &lt;Grid item xs={12} md={6}>
+                                &lt;TextField variant="outlined" label="Finnish" name="finnish" />
+                            &lt;/Grid>
+                            &lt;Grid item xs={12} md={6}>
+                                &lt;TextField variant="outlined" label="English" name="english" />
+                            &lt;/Grid>
+                            &lt;Grid item xs={12} md={6}>
+                                &lt;Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                                    &lt;Button type="submit" color="secondary">
                                         Add Words
-                                    </Button>
-                                </Box>
-                            </Grid>
-                        </Grid>
-                    </form>
-                    <Grid container spacing={2} alignItems="center">
-                        <Grid item xs={12} md={6} sx={{ mt: 2 }}>
-                            <TextField variant="outlined" label="Tag Name" name="tagName"
+                                    &lt;/Button>
+                                &lt;/Box>
+                            &lt;/Grid>
+                        &lt;/Grid>
+                    &lt;/form>
+                    &lt;Grid container spacing={2} alignItems="center">
+                        &lt;Grid item xs={12} md={6} sx={{ mt: 2 }}>
+                            &lt;TextField variant="outlined" label="Tag Name" name="tagName"
                                 value={tagName}
                                 onChange={(e) => setTagName(e.target.value)}
                             />
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                            <Button type="submit" color="secondary"
+                        &lt;/Grid>
+                        &lt;Grid item xs={12} md={6}>
+                            &lt;Button type="submit" color="secondary"
                                 onClick={() => handleAddTag(tagName)}
-                                sx={{ color: 'white'}}
                             >
                                 Add Tag
-                            </Button>
-                        </Grid>
-                    </Grid>
-                </Box>
-                <Typography variant='h3' sx={{ mt: 2 }}>{statusMessage} </Typography>
+                            &lt;/Button>
+                        &lt;/Grid>
+                    &lt;/Grid>
+                &lt;/Box>
+                &lt;Typography variant='h3' sx={{ mt: 2 }}>{statusMessage} &lt;/Typography>
 
-                {tags.length > 0 && <Typography sx={{ mt: 2 }} variant='h2'>Tags</Typography>}
-                <Box sx={{ mb: 2, mt: 2, display: 'flex', flexDirection: 'column', }}>
+                {tags.length > 0 &amp;&amp; &lt;Typography sx={{ mt: 2 }} variant='h2'>Tags&lt;/Typography>}
+                &lt;Box sx={{ mb: 2, mt: 2, display: 'flex', flexDirection: 'column', }}>
                     {tags.map((tag) => (
-                        <Box key={tag.id} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
-                            <Typography variant='h4'>{tag.tag}</Typography>
-                            <Button sx={{ ml: 2 }} startIcon={<DeleteIcon />} onClick={() => handleDeleteTag(tag.id)}>DELETE</Button>
-                        </Box>
+                        &lt;Box key={tag.id} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+                            &lt;Typography variant='h4'>{tag.tag}&lt;/Typography>
+                            &lt;Button sx={{ ml: 2 }} startIcon={&lt;DeleteIcon />} onClick={() => handleDeleteTag(tag.id)}>DELETE&lt;/Button>
+                        &lt;/Box>
                     ))}
-                </Box>
-            </Box>
-            <Box
+                &lt;/Box>
+            &lt;/Box>
+            &lt;Box
                 sx={{
                     display: 'flex',
                     flexDirection: 'column',
@@ -421,16 +446,34 @@ function ParentControl() {
                 }}
             >
                 {listWords(words)}
-                <Button
-                    onClick={handleSaveAll}
-                    sx={{ color: 'white' }}
-                    disabled={Object.keys(changes).length === 0}
-                >
+                &lt;Button onClick={handleSaveAll} disabled={Object.keys(changes).length === 0}>
                     Save
-                </Button>
-            </Box>
-        </Container>
+                &lt;/Button>
+            &lt;/Box>
+        &lt;/Container>
     )
 }
 
-export default ParentControl
+export default ParentControl</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AppRoutes">AppRoutes</a></li><li><a href="global.html#AuthProvider">AuthProvider</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#Register">Register</a></li><li><a href="global.html#fetchTags">fetchTags</a></li><li><a href="global.html#fetchWords">fetchWords</a></li><li><a href="global.html#logOutRemovesthetokenfromthelocalstorageandnavigatestotheloginpage.">logOutRemoves the token from the local storage and navigates to the login page.</a></li><li><a href="global.html#registerUser">registerUser</a></li><li><a href="global.html#root">root</a></li><li><a href="global.html#theme">theme</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Thu Jan 16 2025 20:30:09 GMT+0200 (Itä-Euroopan normaaliaika)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
