@@ -407,7 +407,7 @@ function ParentControl() {
                     {tags.map((tag) => (
                         <Box key={tag.id} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
                             <Typography variant='h4'>{tag.tag}</Typography>
-                            <Button sx={{ ml: 2 }} startIcon={<DeleteIcon />} onClick={() => handleDeleteTag(tag.id)}>DELETE</Button>
+                            <Button sx={{ ml: 2, color: 'white' }} startIcon={<DeleteIcon />} onClick={() => handleDeleteTag(tag.id)}>DELETE</Button>
                         </Box>
                     ))}
                 </Box>
