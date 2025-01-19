@@ -1,3 +1,7 @@
+/**
+ * @fileoverview Main entry point for the Learn English App backend.
+ * Sets up the Express server, middleware, routes, and initializes the database.
+ */
 const express = require('express')
 const app = express()
 const port = process.env.PORT || 5000;
@@ -14,11 +18,11 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.use('/api', router);
 
-
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, "public/index.html"));
-});
-
+/**
+ * Main function to initialize the database and insert initial data.
+ * @async
+ * @function
+ */
 const main = async () => {
     try {
         await database.initialize();
@@ -36,7 +40,11 @@ const main = async () => {
 }
 
 main();
-
+/**
+ * Starts the Express server and listens on the specified port.
+ * Logs a message indicating the server is running.
+ * @function
+ */
 app.listen(port, () => {
     if (process.env.MODE === 'dev') {
         console.log(`Learn English App listening on port ${port} in development mode`)
