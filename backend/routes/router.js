@@ -1,10 +1,16 @@
+/**
+ * @fileoverview
+ * Express router providing various routes for the Learn-English-App.
+ */
+require('dotenv').config();
 const express = require("express");
 const router = express.Router();
 const database = require("../database/crudrepository");
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
-const SECRET_KEY = 'TestiTesti';
+const SECRET_KEY = process.env.SECRET_KEY;
+
 
 router.get("/", async (req, res) => {
     try {
