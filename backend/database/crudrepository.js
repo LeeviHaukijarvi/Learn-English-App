@@ -1,9 +1,17 @@
+/**
+ * @fileoverview This module provides functions to interact with an in-memory SQLite database.
+ * It includes functions to initialize the database, insert and update records, and fetch data.
+ */
 const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database(':memory:');
 
 
 const connectionFunctions = {
 
+    /**
+    * Initializes the database by creating necessary tables if they do not exist.
+    * @returns {Promise<void>} A promise that resolves when the tables are created.
+    */
     initialize: () => {
         return new Promise((resolve, reject) => {
             db.serialize(() => {
@@ -38,7 +46,12 @@ const connectionFunctions = {
             });
         });
     },
-
+    /**
+        * Inserts a new user with the given username and password.
+        * @param {string} username - The username of the user.
+        * @param {string} password - The password of the user.
+        * @returns {Promise<string>} A promise that resolves with a success message or rejects with an error message.
+        */
     insertPasswordAndUsername: (username, password) => {
         return new Promise((resolve, reject) => {
             if (!username || !password) {
@@ -63,6 +76,11 @@ const connectionFunctions = {
         })
     },
 
+    /**
+     * Inserts a new tag.
+     * @param {string} tag - The tag to be inserted.
+     * @returns {Promise<string>} A promise that resolves with a success message or rejects with an error message.
+     */
     insertTag: (tag) => {
         return new Promise((resolve, reject) => {
             if (!tag) {
@@ -82,7 +100,12 @@ const connectionFunctions = {
             });
         });
     },
-
+    /**
+         * Updates the tag of a word with the given id.
+         * @param {number} tag - The new tag.
+         * @param {number} id - The id of the word to be updated.
+         * @returns {Promise<string>} A promise that resolves with a success message or rejects with an error message.
+         */
     updateWordsTag: (tag, id) => {
         return new Promise((resolve, reject) => {
             db.run("UPDATE Translations SET tag = ? WHERE id = ?",
@@ -94,7 +117,12 @@ const connectionFunctions = {
                 });
         });
     },
-
+    /**
+       * Inserts a new translation with the given Finnish and English words.
+       * @param {string} finnishWord - The Finnish word.
+       * @param {string} englishWord - The English word.
+       * @returns {Promise<string>} A promise that resolves with a success message or rejects with an error message.
+       */
     insertFinnishAndEnglish: (finnishWord, englishWord) => {
         return new Promise((resolve, reject) => {
             if (!finnishWord || !englishWord) {
@@ -122,7 +150,10 @@ const connectionFunctions = {
             })
         })
     },
-
+    /**
+         * Fetches all tags from the database.
+         * @returns {Promise<Array>} A promise that resolves with an array of tags or rejects with an error message.
+         */
     getTags: () => {
         return new Promise((resolve, reject) => {
             db.all("SELECT * FROM Tags", [], (err, rows) => {
@@ -133,7 +164,11 @@ const connectionFunctions = {
             })
         })
     },
-
+    /**
+         * Fetches a user with the given username.
+         * @param {string} username - The username of the user to be fetched.
+         * @returns {Promise<Object>} A promise that resolves with the user object or rejects with an error message.
+         */
     getUser: (username) => {
         return new Promise((resolve, reject) => {
             db.get("SELECT * FROM Users WHERE username = ?",
@@ -146,7 +181,10 @@ const connectionFunctions = {
                 })
         })
     },
-
+    /**
+        * Fetches all English words from the database.
+        * @returns {Promise<Array>} A promise that resolves with an array of English words or rejects with an error message.
+        */
     getAllEnglishWords: () => {
         return new Promise((resolve, reject) => {
             db.all("SELECT english_word FROM Translations", [], (err, rows) => {
@@ -157,7 +195,10 @@ const connectionFunctions = {
             })
         })
     },
-
+    /**
+        * Fetches all Finnish words from the database.
+        * @returns {Promise<Array>} A promise that resolves with an array of Finnish words or rejects with an error message.
+        */
     getAllFinnishWords: () => {
         return new Promise((resolve, reject) => {
             db.all("SELECT finnish_word FROM Translations", [], (err, rows) => {
@@ -168,7 +209,10 @@ const connectionFunctions = {
             })
         })
     },
-
+    /**
+         * Fetches all data from Translations table.
+         * @returns {Promise<Array>} A promise that resolves with an array of translations or rejects with an error message.
+         */
     getAllWords: () => {
         return new Promise((resolve, reject) => {
             db.all("SELECT id, finnish_word, english_word, tag FROM Translations", [], (err, rows) => {
@@ -179,7 +223,11 @@ const connectionFunctions = {
             })
         })
     },
-
+    /**
+        * Deletes a word with the given id.
+        * @param {number} id - The id of the word to be deleted.
+        * @returns {Promise<number>} A promise that resolves with the number of rows affected or rejects with an error message.
+        */
     deleteWord: (id) => {
         return new Promise((resolve, reject) => {
             db.run("DELETE FROM Translations WHERE id = ?", [id], (err) => {
@@ -190,7 +238,11 @@ const connectionFunctions = {
             })
         })
     },
-
+    /**
+        * Deletes a tag with the given id.
+        * @param {number} id - The id of the tag to be deleted.
+        * @returns {Promise<number>} A promise that resolves with the number of rows affected or rejects with an error message.
+        */
     deleteTag: (id) => {
         return new Promise((resolve, reject) => {
             db.run("DELETE FROM Tags WHERE id = ?", [id], (err) => {
@@ -201,7 +253,13 @@ const connectionFunctions = {
             })
         })
     },
-
+    /**
+         * Updates a translation with the given Finnish and English words and id.
+         * @param {string} finnishWord - The new Finnish word.
+         * @param {string} englishWord - The new English word.
+         * @param {number} id - The id of the translation to be updated.
+         * @returns {Promise<string>} A promise that resolves with a success message or rejects with an error message.
+         */
     updateWords: (finnishWord, englishWord, id) => {
         return new Promise((resolve, reject) => {
             db.run("UPDATE Translations SET finnish_word = ?, english_word = ? WHERE id = ?",
